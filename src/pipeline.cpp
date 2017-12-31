@@ -27,6 +27,12 @@
  * Constructors and destructor
  */
 
+static char* averr2str(int errnum)
+{
+    static char str[AV_ERROR_MAX_STRING_SIZE];
+    return av_make_error_string(str,AV_ERROR_MAX_STRING_SIZE, errnum);
+}
+
 Pipeline::Pipeline() {
     format=NULL;
     format=avformat_alloc_context();
@@ -166,13 +172,15 @@ void Pipeline::initializeFilterGraph(){
     inputs->filter_ctx = buffersink_ctx;
     inputs->pad_idx    = 0;
     inputs->next       = NULL;
-    
     if ((ret = avfilter_graph_parse_ptr(filter_graph, 
-            filter.toStdString().c_str(),
-                                    &inputs, &outputs, NULL)) < 0)
-        throw std::runtime_error("Failed to create graph");
+            filter.toStdString().c_str(), &inputs, &outputs, NULL)) < 0) {
+        std::string err = "Failed to create graph error";
+        err += averr2str(ret);
+        throw std::runtime_error(err);
+    }
     
-    if ((ret = avfilter_graph_config(filter_graph, NULL)) < 0)
-        throw std::runtime_error("Failed to create graph");
+    if ((ret = avfilter_graph_config(filter_graph, NULL)) < 0) {
+        throw std::runtime_error("Failed to config graph");
+    }
 }
 //------------------------------------------------------------------------------
