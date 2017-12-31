@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -64,7 +64,7 @@ void PipelineParser::parseTxt(const QString& filename){
     QFile file(filename);
     if (!file.open(QFile::ReadOnly | QFile::Text))
     {
-        #warning do errors
+//        #warning do errors
     }
     
     QTextStream in(&file);
@@ -98,7 +98,7 @@ void PipelineParser::parseXml(const QString& filename){
         
 	if (!file.open(QFile::ReadOnly | QFile::Text))
 	{
-                    #warning do errors
+//                    #warning do errors
 	}
         
         QXmlStreamReader Rxml;

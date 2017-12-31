@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -32,6 +32,7 @@
 
 MainWindow::MainWindow() {
     
+    shower = NULL;
     av_register_all();
     avcodec_register_all();
     avfilter_register_all();
@@ -288,7 +289,8 @@ QAction * MainWindow::createNewAction(const QString &info, const QString &icon, 
 
 void MainWindow::createFilterBar()
 {
-    AVFilter *avfil = NULL;
+    int idx = 0;
+    const AVFilter *avfil = NULL;
     while((avfil = avfilter_next(avfil))){
         int i = 0;
         
@@ -442,7 +444,7 @@ void MainWindow::justContinue(){
  */
 
 void MainWindow::removeDock(Player * p){
-   this->removeDockWidget(p->btn->parentWidget());
+   this->removeDockWidget((QDockWidget*)p->btn->parentWidget());
 }
 //------------------------------------------------------------------------------
 

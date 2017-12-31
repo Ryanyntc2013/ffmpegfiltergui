@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -134,7 +134,7 @@ private:
      *  Creates and setups format context.
      *  Initializes decoder.
      */
-    void loadContext();
+    int loadContext();
     //--------------------------------------------------------------------------
     
     /**

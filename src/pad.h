@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -100,7 +100,7 @@ public:
     /**
      * Sets if pad has to be selected or not.
      */
-    inline bool setIsSelected(bool sel){ this->selected=false;}
+    inline bool setIsSelected(bool sel){ this->selected=false; return false;}
     //--------------------------------------------------------------------------
     
     /**

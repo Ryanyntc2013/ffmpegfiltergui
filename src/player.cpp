@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -178,27 +178,32 @@ QImage Player::frameToQImage(AVFrame * filt_frame){
     
     SwsContext   *sws_ctx = NULL;
     AVFrame * frameRGB = av_frame_alloc();
-    int w = filt_frame->width;
-    int h = filt_frame->height;
+//    int w = filt_frame->width;
+//    int h = filt_frame->height;
 
-    uint8_t pomUi[avpicture_get_size(AVPixelFormat::AV_PIX_FMT_RGB24, 
-        w,h)];
-    avpicture_fill((AVPicture *)frameRGB, pomUi, AV_PIX_FMT_RGB24,
-        w, h);
+//    uint8_t pomUi[avpicture_get_size(AVPixelFormat::AV_PIX_FMT_RGB32, w,h)];
+//    avpicture_fill((AVPicture *)frameRGB, pomUi, AV_PIX_FMT_RGB32, w, h);
 
-    sws_ctx = sws_getCachedContext(sws_ctx,w, h, pipeline->getCodec()->pix_fmt,
-            w, h, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+    frameRGB->width = filt_frame->width;
+    frameRGB->height = filt_frame->height;
+    frameRGB->format = AV_PIX_FMT_RGB32;
+    if (av_frame_get_buffer(frameRGB, 64)) {
+        return QImage();
+    }
+    sws_ctx = sws_getCachedContext(sws_ctx, frameRGB->width, frameRGB->height, pipeline->getCodec()->pix_fmt,
+            frameRGB->width, frameRGB->height, AV_PIX_FMT_RGB32, SWS_BICUBIC, NULL, NULL, NULL);
 
     sws_scale(sws_ctx, filt_frame->data, filt_frame->linesize, 0, 
-        h, frameRGB->data, frameRGB->linesize);
+        frameRGB->height, frameRGB->data, frameRGB->linesize);
 
 
-    QImage im = QImage(w,h,QImage::Format_RGB888);
+    QImage im = QImage(frameRGB->width, frameRGB->height, QImage::Format_RGB32);
 
-    for(int y=0;y<h;y++)
-       memcpy(im.scanLine(y),frameRGB->data[0]+y*frameRGB->linesize[0],w*3);
+    for(int y = 0; y < frameRGB->height; y++)
+       memcpy(im.scanLine(y),frameRGB->data[0]+ y * frameRGB->linesize[0], frameRGB->width * 4);
     
     sws_freeContext(sws_ctx);
+    av_frame_unref(frameRGB);
     av_frame_free(&frameRGB);
     
     return im;

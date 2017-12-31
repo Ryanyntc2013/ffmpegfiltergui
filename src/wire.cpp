@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -98,8 +98,7 @@ void Wire::updateInspector(QTableWidget * w){
     w->setItem(0,0, new QTableWidgetItem("Current pts"));
     w->setItem(0,1, new QTableWidgetItem(QString::number(ctx->outputs[idx]->current_pts)));
     w->setItem(1,0, new QTableWidgetItem("Format"));
-    w->setItem(1,1, new QTableWidgetItem(QString(av_get_pix_fmt_name(
-                                                    ctx->outputs[idx]->format))));
+    w->setItem(1,1, new QTableWidgetItem(QString(av_get_pix_fmt_name((AVPixelFormat)ctx->outputs[idx]->format))));
     w->setItem(2,0, new QTableWidgetItem("Frames passed"));
     w->setItem(2,1, new QTableWidgetItem(QString::number(ctx->outputs[idx]->frame_count)));
     w->setItem(3,0, new QTableWidgetItem("Width"));

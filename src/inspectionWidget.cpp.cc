@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -32,7 +32,7 @@ InspectionWidget::InspectionWidget() {
     widget.tableWidget->setRowCount(1);
     QTableWidgetItem * h = new QTableWidgetItem("description");
     QTableWidgetItem * h2 = new QTableWidgetItem("value");
-    widget.tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    widget.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     widget.tableWidget->setHorizontalHeaderItem(0, h);
     widget.tableWidget->setHorizontalHeaderItem(1, h2);
     this->hide();

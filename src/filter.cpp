@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -173,7 +173,7 @@ void Filter::setCtx(AVFilterContext * context){
     if(QString(context->name).compare("in") == 0 || QString(context->name).compare("out") == 0 )
         return;
     
-    AVFilter *avfil = ctx->filter;
+    const AVFilter *avfil = ctx->filter;
     if(avfil->priv_class != NULL){ 
         if(avfil->priv_class->category == AV_CLASS_CATEGORY_FILTER ){
             const AVOption * opt = avfil->priv_class->option;
@@ -183,7 +183,7 @@ void Filter::setCtx(AVFilterContext * context){
                         uint8_t * val=NULL;
                         av_opt_get(ctx, opt->name, AV_OPT_SEARCH_CHILDREN, &val);
                         
-                        p->value = QString(val).replace(",", ".");
+                        p->value = QString((char*)val).replace(",", ".");
                     }
                 }
                 opt=  av_opt_next(avfil->priv_class,opt);
@@ -228,7 +228,7 @@ void Filter::initializeParams(){
                         0, QString("Encoder"), QString("Encoder"), 
                         QString("")));
     }
-    AVFilter *avfil = NULL;
+    const AVFilter *avfil = NULL;
     while((avfil = avfilter_next(avfil))){
         if(QString(avfil->name).compare(name)==0){
             description=avfil->description;
@@ -236,7 +236,7 @@ void Filter::initializeParams(){
                 
                 if(avfil->priv_class->category == AV_CLASS_CATEGORY_FILTER ){
                     
-                    AVOption * opt = avfil->priv_class->option;
+                    const AVOption * opt = avfil->priv_class->option;
                     
                     while(opt!=NULL){
                         if(QString(opt->name).isEmpty()) break;

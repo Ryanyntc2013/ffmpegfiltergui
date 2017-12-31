@@ -1,4 +1,4 @@
-/*********************************************************************************
+﻿/*********************************************************************************
 
     FFmpegGUI: filter graph editor based on Qt and FFmpeg
     Copyright (C) 2017 Roman Sichkaruk <romansichkaruk@gmail.com>
@@ -61,7 +61,7 @@ Pipeline::Pipeline(QString p, QString f) : path(p), filter(f){
  *  Initializes decoder.
  */
 
-void Pipeline::loadContext() {
+int Pipeline::loadContext() {
     AVCodec *dec;
     if(avformat_open_input(&format, path.trimmed().toStdString().c_str(), NULL, NULL) < 0)
         throw std::runtime_error("Failed to open video file.");

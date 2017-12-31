@@ -3,14 +3,18 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = 
+TARGET = filter
 DEPENDPATH += .
 INCLUDEPATH += .
 QT += gui core widgets
 CONFIG += c++11
+DESTDIR = $$PWD/bin
+include (F:\ecamera\ffmpeg_lib\ffmpeglib.pri)
 QMAKE_CLAGS += -D__STDC_FORMAT_MACROS -D__STDC_CONSTANT_MACROS
 QMAKE_CXXFLAGS+= -fpermissive -std=c++0x
-LIBS+=-L(system(ldconfig -p | grep libavformat | grep -o -P '(?<==>).*(?=/libavformat)' | sed -n 1p))  -lavdevice -lavformat -lavfilter -lavcodec -lswscale -lavutil -lswresample -lbz2 -lm -lz -ldl  
+#LIBS+=-L(system(ldconfig -p | grep libavformat | grep -o -P '(?<==>).*(?=/libavformat)' | sed -n 1p))  -lavdevice -lavformat -lavfilter -lavcodec -lswscale -lavutil -lswresample -lbz2 -lm -lz -ldl
+LIBS+=-L-lavdevice -lavformat -lavfilter -lavcodec -lswscale -lavutil -lswresample
+#LIBS+=-lbz2 -lm -lz -ldl
 # Input
 HEADERS += connectivity.h \
            externs.h \
@@ -46,3 +50,6 @@ SOURCES += connectivity.cpp \
            scene.cpp \
            view.cpp \
            wire.cpp
+
+RESOURCES += \
+    ../images.qrc
